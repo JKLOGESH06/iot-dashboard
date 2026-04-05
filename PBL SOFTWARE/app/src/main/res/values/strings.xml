@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HC05 Dashboard</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connected">Connected</string>
+    <string name="select_device">Select Device</string>
+</resources>

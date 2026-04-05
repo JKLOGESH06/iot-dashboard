@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT SIM800L Dashboard</title>
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase V8 SDK (Used to ensure it runs cleanly on local file://) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="glass-card login-card">
+            <h2>Connect to GSM Module</h2>
+            <p>Enter the SIM number inserted in your hardware to access the dashboard live feed.</p>
+            <input type="text" id="simInput" placeholder="e.g. +1 555 019 2048" class="sim-input">
+            <button id="btnConnectDevice" class="btn-primary" style="width: 100%;">Connect System</button>
+            <p id="loginError" class="login-error"></p>
+        </div>
+    </div>
+
+    <div class="blob-bg"></div>
+    
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h1>Smart Load Monitor</h1>
+                <div class="connection-badge connected" id="connBadge">
+                    <span class="dot"></span> 
+                    <span id="connText">Connected to DB</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="btnEnableNotifications" class="btn-primary">Enable Push Alerts</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="dashboard-grid">
+                
+                <!-- Main Value Card -->
+                <div class="glass-card measure-card">
+                    <h2>Live Current</h2>
+                    <div class="meter-container">
+                        <div class="reading-value pulse-text" id="currentValue">0.000</div>
+                        <span class="unit">Amps</span>
+                    </div>
+                    <div class="last-update">Last Check: <span id="timestamp">Just now</span></div>
+                </div>
+
+                <!-- Power Consumption Card -->
+                <div class="glass-card measure-card">
+                    <h2>Power Consumption ⚡</h2>
+                    <div class="meter-container">
+                        <div class="reading-value" id="powerValue">0</div>
+                        <span class="unit">Watts</span>
+                    </div>
+                    <div class="last-update">Total Usage: <span id="energyValue">0.000</span> kWh</div>
+                </div>
+
+                <!-- Status Card -->
+                <div class="glass-card system-card">
+                    <h2>System Status</h2>
+                    <div id="systemState" class="state-badge normal">NORMAL</div>
+                    <p class="status-description" id="statusDesc">The load is comfortably within operational parameters.</p>
+                    
+                    <div class="sim-info">
+                        <span class="sim-icon">📱</span>
+                        <div class="sim-text">
+                            <span class="sim-label">Active SIM ID / Phone Number:</span>
+                            <strong id="simIdDisplay">Waiting for signal...</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="sms-config">
+                        <span class="sim-label" style="display:block; margin-bottom: 0.5rem; text-align: left;">Emergency Alert SMS Destination:</span>
+                        <div class="sms-input-group">
+                            <input type="text" id="smsAlertInput" placeholder="Enter target phone #..." class="sim-input" style="margin-bottom:0; flex: 1;">
+                            <button id="btnUpdateSms" class="btn-primary" style="padding: 0.5rem 1rem;">Set</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert History Card -->
+                <div class="glass-card history-card" style="grid-column: 1 / -1;">
+                    <h2>Recent Alerts</h2>
+                    <div class="feed-container" id="alertFeed">
+                        <!-- Alert items will get injected here via JS -->
+                        <div class="feed-item placeholder">No recent alerts...</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
